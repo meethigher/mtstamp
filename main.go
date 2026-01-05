@@ -235,7 +235,8 @@ func runMtimeBack(root, configDir string) error {
 		}
 
 		// 解析时间字符串为 time.Time
-		tm, err := time.Parse(timeLayout, timeStr)
+		// 使用 ParseInLocation 指定本地时区，确保与 Format 时使用的时区一致
+		tm, err := time.ParseInLocation(timeLayout, timeStr, time.Local)
 		if err != nil {
 			return fmt.Errorf("解析配置文件第 %d 行的时间格式失败: %w", lineNum, err)
 		}
